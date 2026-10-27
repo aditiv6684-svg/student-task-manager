@@ -1,4 +1,4 @@
-name: Student Task Manager CI
+name: Student Task Manager CI/CD
 
 on:
   push:
@@ -41,3 +41,20 @@ jobs:
       - name: Terraform Validate
         working-directory: terraform
         run: terraform validate
+
+  deploy:
+    name: Deploy Cloudflare Worker
+    needs: validate
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.jsonc
