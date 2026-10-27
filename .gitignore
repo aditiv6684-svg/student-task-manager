@@ -1,0 +1,23 @@
+# Terraform working files
+**/.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform variable files and secrets
+*.tfvars
+!terraform.tfvars.example
+
+# Environment files
+.env
+.env.*
+
+# Dependencies and logs
+node_modules/
+*.log
+
+# Editor and operating system files
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,460 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Student Task Manager</title>
+
+    <meta
+        name="description"
+        content="Organize your assignments, manage your tasks, and track your daily progress."
+    >
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- JavaScript -->
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <a href="./index.html" class="logo">
+                <span class="logo-icon">✦</span>
+                <span>TaskFlow</span>
+            </a>
+
+            <button
+                type="button"
+                class="primary-button"
+                id="openTaskForm"
+            >
+                ＋ New task
+            </button>
+
+        </header>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- WELCOME SECTION -->
+            <section class="welcome-section">
+
+                <p class="eyebrow">✦ YOUR PRODUCTIVITY SPACE</p>
+
+                <h1 class="page-heading">
+                    Make today count.
+                </h1>
+
+                <p class="page-subtitle">
+                    A little progress each day adds up to big results.
+                </p>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+            <section class="stats-grid" aria-label="Task statistics">
+
+                <!-- Total tasks -->
+                <article class="stat-card">
+
+                    <div class="stat-label">
+                        <span>Total tasks</span>
+                        <span class="stat-icon">☷</span>
+                    </div>
+
+                    <span class="stat-value" id="totalTasks">0</span>
+
+                    <p class="stat-description">
+                        All your tasks in one place
+                    </p>
+
+                </article>
+
+
+                <!-- Completed tasks -->
+                <article class="stat-card">
+
+                    <div class="stat-label">
+                        <span>Completed</span>
+                        <span class="stat-icon">✓</span>
+                    </div>
+
+                    <span class="stat-value" id="completedTasks">0</span>
+
+                    <p class="stat-description">
+                        Tasks you've finished
+                    </p>
+
+                </article>
+
+
+                <!-- Pending tasks -->
+                <article class="stat-card">
+
+                    <div class="stat-label">
+                        <span>In progress</span>
+                        <span class="stat-icon">◷</span>
+                    </div>
+
+                    <span class="stat-value" id="pendingTasks">0</span>
+
+                    <p class="stat-description">
+                        Ready for your attention
+                    </p>
+
+                </article>
+
+
+                <!-- Progress -->
+                <article class="stat-card">
+
+                    <div class="stat-label">
+                        <span>Your progress</span>
+                        <span class="stat-icon">↗</span>
+                    </div>
+
+                    <span class="stat-value" id="progressPercent">0%</span>
+
+                    <p class="stat-description">
+                        Keep up the great work!
+                    </p>
+
+                </article>
+
+            </section>
+
+
+            <!-- PROGRESS BAR -->
+            <section class="progress-section">
+
+                <div class="progress-header">
+
+                    <div>
+                        <p class="section-label">YOUR DAILY PROGRESS</p>
+
+                        <h2>Every step counts</h2>
+                    </div>
+
+                    <strong id="progressPercentLabel">Let's get started!</strong>
+
+                </div>
+
+                <div
+                    class="progress-track"
+                    role="progressbar"
+                    aria-label="Task completion progress"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    id="progressTrack"
+                >
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+            </section>
+
+
+            <!-- TASKS SECTION -->
+            <section class="tasks-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-label">STAY ORGANIZED</p>
+
+                        <h2 class="tasks-heading">
+                            Your tasks
+                            <span id="visibleTaskCount">0</span>
+                        </h2>
+
+                        <p class="section-description">
+                            Plan your work and get things done.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        id="quickAddButton"
+                    >
+                        ＋ New task
+                    </button>
+
+                </div>
+
+
+                <!-- SEARCH AND SORT -->
+                <div class="task-toolbar">
+
+                    <div class="search-wrapper">
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            class="search-input"
+                            placeholder="⌕ Search your tasks..."
+                            aria-label="Search tasks"
+                        >
+
+                    </div>
+
+                    <select
+                        id="sortFilter"
+                        class="filter-select"
+                        aria-label="Sort tasks"
+                    >
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                        <option value="title">Alphabetical</option>
+                        <option value="completed">Pending first</option>
+                    </select>
+
+                </div>
+
+
+                <!-- TASK FILTERS -->
+                <nav class="task-tabs" aria-label="Filter tasks">
+
+                    <button
+                        type="button"
+                        class="task-tab active"
+                        id="allTasksNav"
+                    >
+                        All tasks
+                    </button>
+
+                    <button
+                        type="button"
+                        class="task-tab"
+                        id="pendingNav"
+                    >
+                        Pending
+                    </button>
+
+                    <button
+                        type="button"
+                        class="task-tab"
+                        id="completedNav"
+                    >
+                        Completed
+                    </button>
+
+                </nav>
+
+
+                <!-- SUCCESS AND ERROR MESSAGES -->
+                <div
+                    id="message"
+                    class="message"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                ></div>
+
+
+                <!-- TASK LIST -->
+                <div
+                    id="tasksContainer"
+                    class="tasks-container"
+                    aria-live="polite"
+                >
+                    <p class="empty-message">
+                        Getting your tasks ready...
+                    </p>
+                </div>
+
+
+                <!-- TASK FOOTER -->
+                <div class="task-footer">
+
+                    <span>
+                        Showing your tasks
+                        <strong id="footerTaskCount">0</strong>
+                    </span>
+
+                    <span>● Synced with Cloudflare</span>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUICK ADD SECTION -->
+            <section class="quick-add-card">
+
+                <p class="eyebrow">✦ QUICK ADD</p>
+
+                <h2>
+                    A new goal<br>
+                    starts here.
+                </h2>
+
+                <p>
+                    Write down what you need to do.
+                    We'll help you keep track.
+                </p>
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    id="quickAddButtonBottom"
+                >
+                    Create a task ↗
+                </button>
+
+            </section>
+
+
+            <!-- REMINDER -->
+            <section class="reminder-card">
+
+                <p class="eyebrow">✧ A LITTLE REMINDER</p>
+
+                <blockquote>
+                    "You don't have to be perfect.
+                    You just have to begin."
+                </blockquote>
+
+                <p class="section-label">
+                    YOUR DAILY ENCOURAGEMENT
+                </p>
+
+            </section>
+
+
+            <!-- DAILY TIP -->
+            <section class="tip-card">
+
+                <p class="eyebrow">☼ DAILY INSPIRATION</p>
+
+                <h2>Today's tip</h2>
+
+                <p>
+                    Break a big assignment into smaller tasks.
+                    Start with just one!
+                </p>
+
+            </section>
+
+        </main>
+
+
+        <!-- FOOTER -->
+        <footer class="page-footer">
+
+            <span>Made for students, with ♥</span>
+
+            <span>
+                Powered by Cloudflare Workers &amp; KV
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <!-- CREATE / EDIT TASK DIALOG -->
+    <dialog id="taskDialog" aria-labelledby="dialogTitle">
+
+        <form id="taskForm">
+
+            <p class="eyebrow">✦ YOUR NEXT STEP</p>
+
+            <h2 id="dialogTitle">Create a task</h2>
+
+            <p class="section-description">
+                Add a task and make progress toward your goals.
+            </p>
+
+
+            <!-- TASK TITLE -->
+            <div class="form-group">
+
+                <label for="taskTitle">
+                    Task title *
+                </label>
+
+                <input
+                    type="text"
+                    id="taskTitle"
+                    name="title"
+                    placeholder="e.g. Complete Cloud Computing Assignment"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- TASK DESCRIPTION -->
+            <div class="form-group">
+
+                <label for="taskDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="taskDescription"
+                    name="description"
+                    placeholder="Add some details about your task..."
+                    maxlength="2000"
+                ></textarea>
+
+            </div>
+
+
+            <!-- FORM BUTTONS -->
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelTaskDialog"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="closeTaskDialog"
+                >
+                    Close
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="saveTaskButton"
+                >
+                    Create task
+                </button>
+
+            </div>
+
+        </form>
+
+    </dialog>
+
+</body>
+</html>
+```
